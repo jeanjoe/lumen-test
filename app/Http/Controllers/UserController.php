@@ -22,7 +22,6 @@ class UserController extends Controller
     public function index()
     {
         $users = User::with('ratings.ratedBy', 'averageRating')->get();
-        $users->first()->averageRating;
         $this->message = 'User Data';
         $this->payload = [
             'users' => $users
@@ -74,7 +73,7 @@ class UserController extends Controller
     public function show($id)
     {
         try {
-            $user = User::with('ratings')->findOrFail($id);
+            $user = User::with('ratings', 'averageRating')->findOrFail($id);
             $this->message = 'User retrieved successfully';
             $this->payload = ['user' => $user];
             $this->statusCode = 200;
